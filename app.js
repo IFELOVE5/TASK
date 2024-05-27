@@ -16,7 +16,7 @@ app.use(`/api/v1`, router)
 
 
 
-mongoose.connect(process.env.CONNECTION_STRING, )
+mongoose.connect(process.env.CONNECTION_STRING,)
 .then(() => { console.log(`database connected`)})
 .catch((err) => {console.log(err)})
 
