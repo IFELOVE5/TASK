@@ -51,18 +51,21 @@ exports.addTask = async (req, res, next) =>{
 
 exports.updateTask = async (req, res, next) => {
     const taskId = req.params.id 
-    const {completed} =req.body
+    const {task, completed} =req.body
     try {
-       const task = await Task.findByIdAndUpdate(taskId, {completed,}, 
+       const updatedTask = await Task.findByIdAndUpdate(taskId, 
+        {completed,
+          task,
+        }, 
         {new:true}
        )
-        if (!task) { return res.status(400).json({message: `task doesn't exist`})
+        if (!updatedTask) { return res.status(400).json({message: `task doesn't exist`})
         }
          if (!mongoose.isValidObjectId(taskId)) {
             return res.status(400).json({message: `task doesn't exist`})
             
          }
-         return res.status(201).json({task})
+         return res.status(201).json({updatedTask})
 
 
     } catch (error) {
@@ -107,7 +110,7 @@ try {
 
 exports.getAllCompleted = async (req,res, next) =>{
     try {
-        const tasks = await Task.find({completed: true}).select(`task`)
+        const tasks = await Task.find({completed: true}).select(`name`)
 
         
      if (!tasks && tasks === 0 ) { return res.status(404).json({
@@ -123,4 +126,30 @@ exports.getAllCompleted = async (req,res, next) =>{
    
    
 
+},
+
+exports.updateCompleted = async (req, res, next) => {
+    const taskId = req.params.id 
+    const { task, completed} =req.body
+    try {
+       const updatedTask = await Task.findByIdAndUpdate(taskId, 
+        {completed,
+            task,
+        }, 
+        {new:true}
+       )
+        if (!updatedTask) { return res.status(400).json({message: `task doesn't exist`})
+        }
+         if (!mongoose.isValidObjectId(taskId)) {
+            return res.status(400).json({message: `task doesn't exist`})
+            
+         }
+         return res.status(201).json({updatedTask})
+
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
 }
+
