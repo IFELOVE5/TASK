@@ -6,7 +6,8 @@ const taskSchema = new Schema({
     task:{
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        runValidators:true
 
     },
 
